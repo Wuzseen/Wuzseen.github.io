@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src='./node_modules/angular/angular.min.js'></script>
+        <script src='./node_modules/ng-table/bundles/ng-table.min.js'></script>
+        <script src='./steam_communicate.js'></script>
+        <link href='./node_modules/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='./node_modules/ng-table/bundles/ng-table.min.css' rel='stylesheet'>
+        <link href='./css/style.css' rel='stylesheet'>
+    </head>
+    <body>
+        <div ng-app='SteamGroupRecommender'>
+            <div ng-controller='SteamGroupRecommender'>
+                <form ng-submit='AddUser()'>
+                    Enter A Valid Steam Username or Profile URL. Profile cannot be private: <input name='text' ng-model='adduserfield' />
+                    <input type='submit' id='submit' value='Add User' />{{lookupError}}<br>
+                </form>
+                <h1>{{greeting}}</h1>
+                <h2>{{message}}</h2>
+                <div ng-repeat="(key, value) in gameDict">
+                    <img ng-src='{{userData[key].avatar}}'/> {{key}} : {{value.gameList.game_count}}<button ng-click='RemoveUser(key)'>Remove</button><br>                 
+                </div>
+                <table ng-table="tableParams" class="table table-hover table-condensed" show-filter="true">
+                    <col width="400">
+                    <tr ng-repeat="entry in data">
+                        {{entry}}
+                        <td data-title="'Game'" sortable="'gameName'" filter="{ 'gameName' :'text'}">
+                            <a href='http://store.steampowered.com/app/{{entry.appid}}'>
+                                <img class="figure-img img-fluid img-rounded" width="100%" ng-src='http://cdn.akamai.steamstatic.com/steam/apps/{{entry.appid}}/header.jpg'/>
+                                <figcaption class="figure-caption text-center">{{entry.gameName}}</figcaption>
+                            </a>
+                        </td>
+                        <td data-title="'Owners'">
+                            <div ng-repeat="(key, owner) in entry.owners">
+                                <img ng-src='{{userData[owner].avatar}}'/>
+                            </div>
+                        </td>
+                        <td data-title="'Time Played'" sortable="'totalPlaytime'">{{toHHMMSS(entry.totalPlaytime)}}</td>
+                        <td data-title="'Average Time Played'" sortable="'totalPlaytime'">{{toHHMMSS(entry.averagePlaytime)}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
