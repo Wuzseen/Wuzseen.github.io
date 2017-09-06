@@ -1,6 +1,6 @@
 var steam_api_key = '0007EC810D3B846A379EAF6D61D720B1';
 
-var baseSteamAPIURL = 'http://api.steampowered.com';
+var baseSteamAPIURL = 'https://api.steampowered.com';
 
 // I feel like this is built in to js somewhere... everything is after all.
 // Converts a dict into a url friendly parameter string
